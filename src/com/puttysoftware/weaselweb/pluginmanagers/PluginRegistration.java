@@ -175,8 +175,8 @@ public class PluginRegistration {
 	// Load plugin registry file
 	final Vector<String> registeredNames = new Vector<>();
 	try (final FileInputStream fis = new FileInputStream(
-		basePath + File.separator + "PluginRegistry" + FileExtension.getRegistryExtensionWithPeriod())) {
-	    final ResourceStreamReader rsr = new ResourceStreamReader(fis);
+		basePath + File.separator + "PluginRegistry" + FileExtension.getRegistryExtensionWithPeriod());
+		final ResourceStreamReader rsr = new ResourceStreamReader(fis)) {
 	    String input = "";
 	    while (input != null) {
 		input = rsr.readString();

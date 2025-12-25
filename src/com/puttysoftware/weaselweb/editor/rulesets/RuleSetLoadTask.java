@@ -30,15 +30,13 @@ public class RuleSetLoadTask extends Thread {
     public void run() {
 	final Application app = WeaselWeb.getApplication();
 	final String sg = "Rule Set";
-	try {
-	    final XDataReader ruleSetFile = DataIOFactory.createTagReader(this.filename, "ruleset");
+	try (final XDataReader ruleSetFile = DataIOFactory.createTagReader(this.filename, "ruleset")) {
 	    try {
 		final int magic = ruleSetFile.readInt();
 		if (magic == RuleSetConstants.MAGIC_NUMBER_2) {
 		    // Format 2 file
 		    app.getObjects().readRuleSet(ruleSetFile, RuleSetConstants.FORMAT_2);
 		}
-		ruleSetFile.close();
 		CommonDialogs.showTitledDialog(sg + " file loaded.", "Rule Set Picker");
 	    } catch (final FileNotFoundException fnfe) {
 		CommonDialogs.showDialog("Loading the " + sg.toLowerCase()
