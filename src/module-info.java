@@ -1,5 +1,7 @@
 module com.puttysoftware.weaselweb {
     requires org.retropipes.diane.asset.image;
+    requires org.retropipes.diane.asset.ogg;
+    requires org.retropipes.diane.asset.sound;
     requires org.retropipes.diane.fileio;
     requires org.retropipes.diane.fileio.utility;
     requires org.retropipes.diane.gui;

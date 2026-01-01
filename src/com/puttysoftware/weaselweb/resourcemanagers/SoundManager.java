@@ -5,9 +5,8 @@ Any questions should be directed to the author via email at: products@puttysoftw
  */
 package com.puttysoftware.weaselweb.resourcemanagers;
 
-import java.net.URL;
+import org.retropipes.diane.asset.sound.DianeSoundPlayer;
 
-import com.puttysoftware.media.Media;
 import com.puttysoftware.weaselweb.prefs.PreferencesManager;
 
 public class SoundManager {
@@ -15,23 +14,12 @@ public class SoundManager {
     private static String LOAD_PATH = SoundManager.DEFAULT_LOAD_PATH;
     private static Class<?> LOAD_CLASS = SoundManager.class;
 
-    private static Media getSound(final String filename) {
-	try {
-	    final URL url = SoundManager.LOAD_CLASS
-		    .getResource(SoundManager.LOAD_PATH + filename.toLowerCase() + ".wav");
-	    final Media snd = Media.getNonLoopingResource(url);
-	    return snd;
-	} catch (final NullPointerException np) {
-	    return null;
-	}
-    }
-
     public static void playSound(final int soundCat, final int soundID) {
 	if (PreferencesManager.getSoundEnabled(soundCat + 1)) {
 	    try {
 		final String soundName = SoundConstants.SOUND_NAMES[soundID];
-		final Media snd = SoundManager.getSound(soundName);
-		snd.start();
+		DianeSoundPlayer.playSource(
+			SoundManager.LOAD_CLASS.getResource(SoundManager.LOAD_PATH + soundName.toLowerCase() + ".wav"));
 	    } catch (final ArrayIndexOutOfBoundsException aioob) {
 		// Do nothing
 	    }
