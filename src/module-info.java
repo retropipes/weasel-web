@@ -9,6 +9,7 @@ module com.puttysoftware.weaselweb {
     requires org.retropipes.diane.internal;
     requires org.retropipes.diane.random;
     requires org.retropipes.diane.scoring;
+    requires org.retropipes.diane.storage;
     requires org.retropipes.diane.update;
     requires java.desktop;
 }

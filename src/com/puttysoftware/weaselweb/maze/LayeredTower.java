@@ -12,8 +12,8 @@ import org.retropipes.diane.fileio.XDataReader;
 import org.retropipes.diane.fileio.XDataWriter;
 import org.retropipes.diane.gui.dialog.CommonDialogs;
 import org.retropipes.diane.random.RandomRange;
+import org.retropipes.diane.storage.FlagStorage;
 
-import com.puttysoftware.llds.LowLevelFlagDataStore;
 import com.puttysoftware.weaselweb.Application;
 import com.puttysoftware.weaselweb.WeaselWeb;
 import com.puttysoftware.weaselweb.maze.generic.DirectionResolver;
@@ -44,7 +44,7 @@ class LayeredTower implements Cloneable {
     // Properties
     private LowLevelDataStore data;
     private SavedTowerState savedTowerState;
-    private final LowLevelFlagDataStore visionData;
+    private final FlagStorage visionData;
     private final int[] playerData;
     private final int[] findResult;
     private int visionRadius;
@@ -89,7 +89,7 @@ class LayeredTower implements Cloneable {
     public LayeredTower(final int rows, final int cols, final int floors) {
 	this.data = new LowLevelDataStore(cols, rows, floors, MazeConstants.LAYER_COUNT);
 	this.savedTowerState = new SavedTowerState(rows, cols, floors);
-	this.visionData = new LowLevelFlagDataStore(cols, rows, floors);
+	this.visionData = new FlagStorage(cols, rows, floors);
 	this.playerData = new int[3];
 	Arrays.fill(this.playerData, -1);
 	this.findResult = new int[3];
