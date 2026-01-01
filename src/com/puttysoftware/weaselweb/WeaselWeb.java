@@ -9,11 +9,12 @@ import java.util.Vector;
 
 import org.retropipes.diane.Diane;
 import org.retropipes.diane.gui.dialog.CommonDialogs;
+import org.retropipes.diane.integration.Integration;
 
-import com.puttysoftware.platform.Platform;
 import com.puttysoftware.weaselweb.maze.TempDirCleanup;
 import com.puttysoftware.weaselweb.pluginmanagers.PluginHooks;
 import com.puttysoftware.weaselweb.pluginmanagers.PluginLoader;
+import com.puttysoftware.weaselweb.prefs.PreferencesLauncher;
 import com.puttysoftware.weaselweb.prefs.PreferencesManager;
 import com.puttysoftware.weaselweb.resourcemanagers.LogoManager;
 import com.puttysoftware.weaselweb.resourcemanagers.MusicManager;
@@ -55,8 +56,9 @@ public class WeaselWeb {
 
     public static void main(final String[] args) {
 	try {
+	    Diane.installDefaultErrorHandler(PROGRAM_NAME);
 	    // Integrate with host platform
-	    Platform.hookLAF(WeaselWeb.PROGRAM_NAME);
+	    Integration i = Integration.integrate();
 	    // Load all registered plugins
 	    final Vector<Object> plugins = PluginLoader.loadAllRegisteredPlugins();
 	    // Inject early hooks
@@ -66,19 +68,10 @@ public class WeaselWeb {
 	    WeaselWeb.application.playLogoSound();
 	    WeaselWeb.application.getGUIManager().showGUI();
 	    // Register platform hooks
-	    Platform.hookAbout(WeaselWeb.application.getAboutDialog(),
-		    WeaselWeb.application.getAboutDialog().getClass().getDeclaredMethod("showAboutDialog"));
-	    String s;
-	    if (args.length == 0) {
-		s = null;
-	    } else {
-		s = args[0];
-	    }
-	    Platform.hookFileOpen(WeaselWeb.application.getMazeManager(), WeaselWeb.application.getMazeManager()
-		    .getClass().getDeclaredMethod("loadFromOSHandler", String.class), s);
-	    Platform.hookPreferences(PreferencesManager.class, PreferencesManager.class.getDeclaredMethod("showPrefs"));
-	    Platform.hookQuit(WeaselWeb.application.getGUIManager(),
-		    WeaselWeb.application.getGUIManager().getClass().getDeclaredMethod("quitHandler"));
+	    i.setAboutHandler(WeaselWeb.application.getAboutDialog());
+	    i.setOpenFileHandler(WeaselWeb.application.getMazeManager());
+	    i.setPreferencesHandler(new PreferencesLauncher());
+	    i.setQuitHandler(WeaselWeb.application.getGUIManager());
 	    // Inject late hooks
 	    PluginHooks.injectLateHooks(plugins);
 	    // Set up Common Dialogs

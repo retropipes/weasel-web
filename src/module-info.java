@@ -5,6 +5,7 @@ module com.puttysoftware.weaselweb {
     requires org.retropipes.diane.gui;
     requires org.retropipes.diane.gui.picker;
     requires org.retropipes.diane.help;
+    requires org.retropipes.diane.integration;
     requires org.retropipes.diane.internal;
     requires org.retropipes.diane.random;
     requires org.retropipes.diane.scoring;

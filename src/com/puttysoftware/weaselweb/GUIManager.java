@@ -8,6 +8,9 @@ package com.puttysoftware.weaselweb;
 import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.desktop.QuitEvent;
+import java.awt.desktop.QuitHandler;
+import java.awt.desktop.QuitResponse;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
@@ -25,7 +28,7 @@ import com.puttysoftware.weaselweb.maze.TempDirCleanup;
 import com.puttysoftware.weaselweb.prefs.PreferencesManager;
 import com.puttysoftware.weaselweb.resourcemanagers.LogoManager;
 
-public class GUIManager {
+public class GUIManager implements QuitHandler {
     // Fields
     private final JFrame guiFrame;
     private final Container guiPane;
@@ -142,6 +145,15 @@ public class GUIManager {
 	@Override
 	public void windowOpened(final WindowEvent arg0) {
 	    // Do nothing
+	}
+    }
+
+    @Override
+    public void handleQuitRequestWith(QuitEvent e, QuitResponse response) {
+	if (this.quitHandler()) {
+	    response.performQuit();
+	} else {
+	    response.cancelQuit();
 	}
     }
 }

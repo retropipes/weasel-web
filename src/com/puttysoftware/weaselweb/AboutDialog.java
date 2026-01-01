@@ -10,6 +10,8 @@ import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.desktop.AboutEvent;
+import java.awt.desktop.AboutHandler;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,7 +23,7 @@ import javax.swing.WindowConstants;
 
 import com.puttysoftware.weaselweb.resourcemanagers.LogoManager;
 
-public class AboutDialog {
+public class AboutDialog implements AboutHandler {
     // Fields
     private JFrame aboutFrame;
     private Container aboutPane, textPane, buttonPane, logoPane;
@@ -102,5 +104,10 @@ public class AboutDialog {
 		WeaselWeb.logError(ex);
 	    }
 	}
+    }
+
+    @Override
+    public void handleAbout(AboutEvent e) {
+	this.aboutFrame.setVisible(true);
     }
 }
